@@ -1,6 +1,53 @@
-# encryption methods
+# imports
+import os
 
+# dependent function... *vomits everywhere because math*
+def egcd(a, b):
+    # extended Euclidean algorithm
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    # modular multiplicative inverse
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
+
+def gcd(a, b):
+    # greatest common divisor
+    while b:
+        a, b = b, a % b
+    return a
+
+def lcm(a, b):
+    # least common multiple
+    return a * b // gcd(a, b)
+
+def isPrime(n):
+    # check if number is prime
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0 or n % 3 == 0:
+        return False
+    i = 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return False
+        i = i + 6
+    return True
+
+
+# encryption methods
 def Caesar():
+    # clear screen
+    os.system('cls')
     user_input = input("Please enter a message: ")
     # add space between user input and next output
     print()
@@ -112,7 +159,10 @@ def Caesar():
         # invalid input
         print("Invalid input. Please try again.")
 
+
 def Vigenere():
+    # clear screen
+    os.system('cls')
     # encryption using Vigenere Cipher
     user_input = input("Please enter a message: ")
     # add space between user input and next output
@@ -165,10 +215,108 @@ def Vigenere():
             # add new char to cipher
             cipher += newChar
     print("Encrypted message: " + cipher)
+ 
 
-'''
 def RSA():
+    # clear screen
+    os.system('cls')
+    # I have already completed Calculus 1 & 2, why am I torturing myself with this?
+    print("NOTE: If you're like a multi-million dollar corporation... double check my math before implementing this... not my fault")
+    print()
+    print("What would you like to do?")
+    print("1. Generate a key pair")
+    print("2. Encrypt a message using a key pair")
+    option_input = input("Please enter a number: ")
+    if option_input == "1":
+        GenerateKeysRSA()
+    elif option_input == "2":
+        # ask user for user input, n, e
+        user_input = input("Please enter a message: ")
+        n = int(input("Please enter n: "))
+        e = int(input("Please enter e: "))
+        EncryptRSA(user_input, n, e)
+    else:
+        # invalid input
+        print("Invalid input. Please try again.")
+        option_input = input("Please enter a number: ")
 
+
+def GenerateKeysRSA():
+# generaring key pair
+    user_input = input("Please enter the plaintext to encrypt: ")
+    # add space between user input and next output
+    print()
+    # ask user to input a prime number
+    p = int(input("Please enter a prime number (p) [the bigger the better]: "))
+    # check if p is prime
+    if isPrime(p) == False:
+        print("p is not prime. Please try again.")
+        print()
+        p = int(input("Please enter a prime number (p) [the bigger the better]: "))
+    # add space between user input and next output
+    print()
+    # ask user to input a prime number
+    q = int(input("Please enter a prime number (q) [the bigger the better]: "))
+    # check if q is prime
+    if isPrime(q) == False:
+        print("q is not prime. Please try again.")
+        print()
+        q = int(input("Please enter a prime number (q)[the bigger the better]: "))
+    # add space between user input and next output
+    print()
+    # calculate n
+    n = p * q
+    # print n
+    print("n = p * q = " + str(n))
+    print()
+    # calculate tot(n), Carmichael's totient function; what Car does Michael drive?
+    tot_n = lcm(p - 1, q - 1)
+    print("tot(n) = λ(n) = lcm(p - 1, q - 1) = " + str(tot_n))
+    print()
+    # not using euler's totient function because it's not as efficient plus I'm a savage mfer
+    # give examples of e
+    print("Examples of e: 3, 5, 17, 257, 65537, etc.")
+    # ask for user input e, where 1 < e <tot(n) and e is coprime to tot(n)
+    e = int(input("Please enter a number (e) where 1 < e < tot(n) and e is coprime to tot(n): "))
+    # test that e is coprime to tot(n) and 1 < e < tot(n)
+    if gcd(e, tot_n) != 1 or e < 1 or e > tot_n:
+        print("Invalid input. Do you seriously not know how to check that gcd(e, tot_n) != 1 or e < 1 or e > tot_n; kinda embarrassing. lease try again.")
+    # define phi
+    phi = (p - 1) * (q - 1) # omg its euler's totient making a comeback, remeber earlier when I said I'm a savage mfer? well I lied
+    # calculate d
+    d = modinv(e, phi)
+    # print d
+    print("d = modinv(e, phi) = " + str(d))
+    print()
+    # print public key
+    print("Public key (n, e): (" + str(n) + ", " + str(e) + ")")
+    # print private key
+    print("Private key (n, d): (" + str(n) + ", " + str(d) + ")")
+    print()
+    # ask user if they want to encrypt a message using the key
+    print("Would you like to encrypt a message using the key we just made?")
+    print("1. Yes")
+    print("2. No")
+    option_input = input("Please enter a number: ")
+    if option_input == "1":
+        EncryptRSA(user_input, n, e)
+
+
+def EncryptRSA(user_input, n, e):
+    # encrypt message
+    cipher = ""
+    for char in user_input:
+        # convert char to ascii
+        char = ord(char)
+        # encrypt char
+        char = pow(char, e, n)
+        # convert char back to ascii
+        char = chr(char)
+        # add char to cipher
+        cipher += char
+    print("Encrypted message: " + cipher)
+    
+'''
 def AES():
 
 def DES():
@@ -200,4 +348,5 @@ def Argon2():
 def EllipticCurve():
 
 def DiffieHellman():
+
 '''

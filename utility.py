@@ -26,7 +26,7 @@ def main():
     # Print the title to the command line
     print("*" * 50)
     print("CCLU - Cybersecurity Command Line Utility")
-    print("It\'s pronounces \"See Clue\".")
+    print("It\'s pronounced \"See Clue\".")
     print("*" * 50)
     menu()
     print()
