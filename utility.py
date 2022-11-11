@@ -16,8 +16,8 @@ def menu():
     print("Menu:")
     print("1. Encryption")
     print("2. Decryption")
-    print("4. Password")
-    print("5. Network")
+    print("3. Password")
+    print("4. Network")
     print("Q. Exit")
     print()
 
@@ -80,8 +80,8 @@ def main():
         if user_input == "4":
             # AES
             print("AES")
-            from encryption import AES
-            AES()
+            from encryption import AESmain
+            AESmain()
         if user_input == "5":
             # DES
             print("DES")
@@ -164,6 +164,63 @@ def main():
     elif user_input == "3" or user_input == "Password":
         # Password Generator
         print("Password")
+        # clear the screen
+        os.system("cls")
+        # Encryption
+        print("Password menu: ")
+        print("1. Generate a secure password")
+        print("2. Check password strength")
+        print()
+        # get user input
+        option_input = input("Please select an option: ")
+        # add space between user input and next output
+        print()
+        # Check user input
+        if option_input == "1" or option_input == "Generate a secure password":
+            # ask what method to use
+            print("Password generation methods: ")
+            print("1. Random")
+            print("2. Diceware")
+            print("3. Passphrase")
+            print("4. xkcd")
+            print("5. Random Walk")
+            print()
+            # get user input
+            user_input = input("Please select an option: ")
+            # add space between user input and next output
+            print()
+            # Check user input
+            if user_input == "1" or user_input == "Random":
+                # Random
+                print("Random")
+                from passwordGen import RandomPass
+                RandomPass()
+            elif user_input == "2" or user_input == "Diceware":
+                # Diceware
+                print("Diceware")
+                from passwordGen import Diceware
+                Diceware()
+            elif user_input == "3" or user_input == "Passphrase":
+                # Passphrase
+                print("Passphrase")
+                from passwordGen import Passphrase
+                Passphrase()
+            elif user_input == "4" or user_input == "xkcd":
+                # xkcd
+                print("xkcd")
+                from passwordGen import xkcd
+                xkcd()
+            elif user_input == "5" or user_input == "Random Walk":
+                # Random Walk
+                print("Random Walk")
+                from passwordGen import RandomWalk
+                RandomWalk()
+            else:
+                print("Invalid input")
+                user_input = input("Please select an option: ")
+        elif option_input == "2" or option_input == "Check password strength":
+            # Check password strength
+            print("TODO")
     elif user_input == "Q" or user_input == "q":
         # Exit
         print("Exiting...")
