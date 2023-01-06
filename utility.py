@@ -208,6 +208,7 @@ def main():
             elif user_input == "4" or user_input == "xkcd":
                 # xkcd
                 print("xkcd")
+
                 from passwordGen import xkcd
                 xkcd()
             elif user_input == "5" or user_input == "Random Walk":
